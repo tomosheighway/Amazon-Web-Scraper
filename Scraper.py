@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import csv
 
 def get_amazon_product_info(url):
     try:
@@ -16,15 +17,15 @@ def get_amazon_product_info(url):
             #price
             price_whole_element = soup.find('span', {'class': 'a-price-whole'})
             price_fraction_element = soup.find('span', {'class': 'a-price-fraction'})
-            price_symbol = soup.find('span', {'class': 'a-price-symbol'})
-            #before_discount = soup.find('span', {'class': 'a-offscreen'})
-            #print(before_discount.get_text().strip())
-            price = price_symbol.get_text().strip() +price_whole_element.get_text().strip() + price_fraction_element.get_text().strip()
+            price_symbol_element = soup.find('span', {'class': 'a-price-symbol'})
+            price = price_symbol_element.get_text().strip() + price_whole_element.get_text().strip() + price_fraction_element.get_text().strip()
             
-            #Not working 
+            #Price without discount - Not working 
+            """ 
             regular_price_element = soup.find("span", class_="a-price")
             regular_price = regular_price_element.find("span", class_="a-offscreen").text.strip()
             print(regular_price)
+            """
 
             #rating
             rating_element = soup.find('span', {'class': 'a-icon-alt'})
@@ -50,11 +51,23 @@ def get_amazon_product_info(url):
         return None
 
 
-url = "https://www.amazon.com/dp/B0CCRP85TR/ref=sspa_dk_detail_2?psc=1&pd_rd_i=B0CCRP85TR&pd_rd_w=8J0l0&content-id=amzn1.sym.eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_p=eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_r=89CXFAHKPEGJG5G6F0T8&pd_rd_wg=GLH2h&pd_rd_r=8ec25787-3a4a-456f-adc9-3b1e83b0c96e&s=pc&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw"
-#url = "https://www.amazon.com/Raspberry-Pi-MS-014-1-8GHz-64-bit-Quad-Core/dp/B07TD42S27/"
+#url = "https://www.amazon.com/dp/B0CCRP85TR/ref=sspa_dk_detail_2?psc=1&pd_rd_i=B0CCRP85TR&pd_rd_w=8J0l0&content-id=amzn1.sym.eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_p=eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_r=89CXFAHKPEGJG5G6F0T8&pd_rd_wg=GLH2h&pd_rd_r=8ec25787-3a4a-456f-adc9-3b1e83b0c96e&s=pc&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw"
+url = "https://www.amazon.com/Raspberry-Pi-MS-014-1-8GHz-64-bit-Quad-Core/dp/B07TD42S27/"
 product_info = get_amazon_product_info(url)
+
+
 if product_info:
+    fields = ['title', 'price', 'rating', 'num_reviews']
+    
+    # Add to CSV
+    filename = 'product_info.csv'
+    with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fields)
+        writer.writeheader()
+        writer.writerow(product_info)
+
     print("Product Title:", product_info['title'])
     print("Price:", product_info['price'])
     print("Rating:", product_info['rating'])
     print("Number of Reviews:", product_info['num_reviews'])
+
