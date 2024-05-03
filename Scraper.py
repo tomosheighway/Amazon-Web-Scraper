@@ -50,21 +50,25 @@ def get_amazon_product_info(url):
         print("An error occurred:", str(e))
         return None
 
+product_urls = [
+    "https://www.amazon.com/dp/B0CCRP85TR/ref=sspa_dk_detail_2?psc=1&pd_rd_i=B0CCRP85TR&pd_rd_w=8J0l0&content-id=amzn1.sym.eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_p=eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_r=89CXFAHKPEGJG5G6F0T8&pd_rd_wg=GLH2h&pd_rd_r=8ec25787-3a4a-456f-adc9-3b1e83b0c96e&s=pc&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw",
+    "https://www.amazon.com/Raspberry-Pi-MS-014-1-8GHz-64-bit-Quad-Core/dp/B07TD42S27/",
+]
 
-#url = "https://www.amazon.com/dp/B0CCRP85TR/ref=sspa_dk_detail_2?psc=1&pd_rd_i=B0CCRP85TR&pd_rd_w=8J0l0&content-id=amzn1.sym.eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_p=eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_r=89CXFAHKPEGJG5G6F0T8&pd_rd_wg=GLH2h&pd_rd_r=8ec25787-3a4a-456f-adc9-3b1e83b0c96e&s=pc&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw"
-url = "https://www.amazon.com/Raspberry-Pi-MS-014-1-8GHz-64-bit-Quad-Core/dp/B07TD42S27/"
-product_info = get_amazon_product_info(url)
 
-
-if product_info:
+def write_to_csv(filename, product_info):
     fields = ['title', 'price', 'rating', 'num_reviews']
-    
-    # Add to CSV
-    filename = 'product_info.csv'
-    with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+    with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fields)
-        writer.writeheader()
+        if csvfile.tell() == 0:
+            writer.writeheader()
         writer.writerow(product_info)
+
+
+for url in product_urls:
+    product_info = get_amazon_product_info(url)
+    if product_info:
+        write_to_csv('product_info.csv', product_info)
 
     print("Product Title:", product_info['title'])
     print("Price:", product_info['price'])
