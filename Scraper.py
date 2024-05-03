@@ -19,14 +19,7 @@ def get_amazon_product_info(url):
             price_fraction_element = soup.find('span', {'class': 'a-price-fraction'})
             price_symbol_element = soup.find('span', {'class': 'a-price-symbol'})
             price = price_symbol_element.get_text().strip() + price_whole_element.get_text().strip() + price_fraction_element.get_text().strip()
-            
-            #Price without discount - Not working 
-            """ 
-            regular_price_element = soup.find("span", class_="a-price")
-            regular_price = regular_price_element.find("span", class_="a-offscreen").text.strip()
-            print(regular_price)
-            """
-
+        
             #rating
             rating_element = soup.find('span', {'class': 'a-icon-alt'})
             rating = rating_element.get_text().strip() if rating_element else "Rating not available"
@@ -58,7 +51,6 @@ def write_to_csv(filename, product_info):
         if csvfile.tell() == 0:
             writer.writeheader()
         writer.writerow(product_info)
-
 
 # checks if product title already in the csv 
 def product_exists_in_csv(filename, product_title):         
@@ -92,7 +84,6 @@ def update_csv(filename, product_info):
             writer.writeheader()
             writer.writerows(rows)
 
-
 product_urls = [
     "https://www.amazon.com/dp/B0CCRP85TR/ref=sspa_dk_detail_2?psc=1&pd_rd_i=B0CCRP85TR&pd_rd_w=8J0l0&content-id=amzn1.sym.eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_p=eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_r=89CXFAHKPEGJG5G6F0T8&pd_rd_wg=GLH2h&pd_rd_r=8ec25787-3a4a-456f-adc9-3b1e83b0c96e&s=pc&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw",
     "https://www.amazon.com/Raspberry-Pi-MS-014-1-8GHz-64-bit-Quad-Core/dp/B07TD42S27/",
@@ -113,10 +104,3 @@ for url in product_urls:
             print(f"Product '{product_info['title']}' added to CSV.")
     else:
         print("Failed to get product information.")
-
-"""
-    print("Product Title:", product_info['title'])
-    print("Price:", product_info['price'])
-    print("Rating:", product_info['rating'])
-    print("Number of Reviews:", product_info['num_reviews'])
-"""
