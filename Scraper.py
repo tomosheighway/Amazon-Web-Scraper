@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+from datetime import datetime
 
 def get_amazon_product_info(url):
     try:
@@ -28,11 +29,16 @@ def get_amazon_product_info(url):
             num_reviews_element = soup.find('span', {'id': 'acrCustomerReviewText'})
             num_reviews = num_reviews_element.get_text().strip() if num_reviews_element else "Number of reviews not available"
             
+            #last updated date time 
+            now = datetime.now()
+            last_updated = now.strftime("%d/%m/%Y %H:%M:%S")
+
             return {
                 'title': title,
                 'price': price,
                 'rating': rating,
-                'num_reviews': num_reviews
+                'num_reviews': num_reviews,
+                'last_updated': last_updated
             }
         else:
             #error code for reason of fail
@@ -45,7 +51,7 @@ def get_amazon_product_info(url):
 
 # Add product info to CSV 
 def write_to_csv(filename, product_info):
-    fields = ['title', 'price', 'rating', 'num_reviews']
+    fields = ['title', 'price', 'rating', 'num_reviews','last_updated']
     with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fields)
         if csvfile.tell() == 0:
@@ -75,6 +81,7 @@ def update_csv(filename, product_info):
                 row['price'] = product_info['price']
                 row['rating'] = product_info['rating']
                 row['num_reviews'] = product_info['num_reviews']
+                row['last_updated'] = product_info['last_updated']
                 updated = True
             rows.append(row)
     
