@@ -93,7 +93,7 @@ def update_csv(filename, product_info):
 
 product_urls = [
     "https://www.amazon.com/dp/B0CCRP85TR/ref=sspa_dk_detail_2?psc=1&pd_rd_i=B0CCRP85TR&pd_rd_w=8J0l0&content-id=amzn1.sym.eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_p=eb7c1ac5-7c51-4df5-ba34-ca810f1f119a&pf_rd_r=89CXFAHKPEGJG5G6F0T8&pd_rd_wg=GLH2h&pd_rd_r=8ec25787-3a4a-456f-adc9-3b1e83b0c96e&s=pc&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWw",
-    "https://www.amazon.com/Raspberry-Pi-MS-014-1-8GHz-64-bit-Quad-Core/dp/B07TD42S27/",
+    "https://www.amazon.com/Raspberry-Pi-MS-014-1-8GHz-64-bit-Quad-Core/dp/B07TC2BK1X",
     "https://www.amazon.com/dp/B09S11Q684/ref=sspa_dk_detail_2?psc=1&pd_rd_i=B09S11Q684&pd_rd_w=uvOsA&content-id=amzn1.sym.bea09237-ea55-4178-b48e-12d729325a93&pf_rd_p=bea09237-ea55-4178-b48e-12d729325a93&pf_rd_r=Y8NFMZY70GBMEJYYGYFN&pd_rd_wg=4stFS&pd_rd_r=4bf965d9-4248-4bfc-9964-c6560244e96e&s=pc&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWxfdGhlbWF0aWM",
 ]
 
